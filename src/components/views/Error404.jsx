@@ -1,5 +1,5 @@
 import { Button } from 'react-bootstrap';
-import error from '../../assets/error404.png'
+import error from '../../assets/error404.jpg'
 const Error404 = () => {
     return (
         <section className="mainSection text-center">
