@@ -52,8 +52,8 @@ const CrearProducto = () => {
                 message: "La descripción debe tener al menos 10 caracteres",
               },
               maxLength: {
-                value: 200,
-                message: "La descripción debe tener como máximo 200 caracteres",
+                value: 500,
+                message: "La descripción debe tener como máximo 500 caracteres",
               },
             })}
           />
