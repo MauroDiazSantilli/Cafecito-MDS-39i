@@ -5,7 +5,7 @@ const CrearProducto = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
@@ -38,6 +38,27 @@ const CrearProducto = () => {
           />
           <Form.Text className="text-danger">
             {errors.producto?.message}
+          </Form.Text>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formDescripcion">
+          <Form.Label>Descripción*</Form.Label>
+          <Form.Control
+            as="textarea"
+            placeholder="Escriba una descripción del producto"
+            {...register("descripcion", {
+              required: "La descripción es obligatoria",
+              minLength: {
+                value: 10,
+                message: "La descripción debe tener al menos 10 caracteres",
+              },
+              maxLength: {
+                value: 200,
+                message: "La descripción debe tener como máximo 200 caracteres",
+              },
+            })}
+          />
+          <Form.Text className="text-danger">
+            {errors.descripcion?.message}
           </Form.Text>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formPrecio">
@@ -99,4 +120,4 @@ const CrearProducto = () => {
   );
 };
 
-export default CrearProducto
+export default CrearProducto;
