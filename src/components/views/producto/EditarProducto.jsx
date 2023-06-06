@@ -2,17 +2,20 @@ import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
 const EditarProducto = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const onSubmit = (data) => {
-  };
+  const onSubmit = (data) => {};
 
   return (
     <section className="container mainSection">
       <h1 className="display-4 mt-5">Editar producto</h1>
       <hr />
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group className="mb-3" controlId="formNombreProdcuto">
+        <Form.Group className="mb-3" controlId="formNombreProducto">
           <Form.Label>Producto*</Form.Label>
           <Form.Control
             type="text"
@@ -21,17 +24,40 @@ const EditarProducto = () => {
               required: "El nombre del producto es obligatorio",
               minLength: {
                 value: 2,
-                message: "El nombre del producto debe tener al menos 2 caracteres",
+                message:
+                  "El nombre del producto debe tener al menos 2 caracteres",
               },
               maxLength: {
                 value: 15,
-                message: "El nombre del producto debe tener como máximo 15 caracteres",
+                message:
+                  "El nombre del producto debe tener como máximo 15 caracteres",
               },
             })}
           />
-            <Form.Text className="text-danger">
-              {errors.producto?.message}
-            </Form.Text>   
+          <Form.Text className="text-danger">
+            {errors.producto?.message}
+          </Form.Text>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formDescripcion">
+          <Form.Label>Descripción*</Form.Label>
+          <Form.Control
+            as="textarea"
+            placeholder="Escriba una descripción del producto"
+            {...register("descripcion", {
+              required: "La descripción es obligatoria",
+              minLength: {
+                value: 10,
+                message: "La descripción debe tener al menos 10 caracteres",
+              },
+              maxLength: {
+                value: 200,
+                message: "La descripción debe tener como máximo 200 caracteres",
+              },
+            })}
+          />
+          <Form.Text className="text-danger">
+            {errors.descripcion?.message}
+          </Form.Text>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formPrecio">
           <Form.Label>Precio*</Form.Label>
@@ -46,9 +72,9 @@ const EditarProducto = () => {
               },
             })}
           />
-           <Form.Text className="text-danger">
-              {errors.precio?.message}
-            </Form.Text>
+          <Form.Text className="text-danger">
+            {errors.precio?.message}
+          </Form.Text>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formImagen">
           <Form.Label>Imagen URL*</Form.Label>
@@ -63,9 +89,9 @@ const EditarProducto = () => {
               },
             })}
           />
-         <Form.Text className="text-danger">
-              {errors.imagen?.message}
-            </Form.Text>
+          <Form.Text className="text-danger">
+            {errors.imagen?.message}
+          </Form.Text>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formCategoria">
           <Form.Label>Categoria*</Form.Label>
@@ -81,9 +107,8 @@ const EditarProducto = () => {
             <option value="salado">Salado</option>
           </Form.Select>
           <Form.Text className="text-danger">
-              {errors.categoria?.message}
-            </Form.Text>
-          
+            {errors.categoria?.message}
+          </Form.Text>
         </Form.Group>
         <Button variant="primary" type="submit">
           Guardar
