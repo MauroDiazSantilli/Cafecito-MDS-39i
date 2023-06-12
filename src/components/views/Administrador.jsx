@@ -1,7 +1,8 @@
-import { Table, Button } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import ItemProducto from "./producto/ItemProducto";
 import { useEffect, useState } from "react";
 import { obtenerProductos } from "../helpers/queries";
+import { Link } from "react-router-dom";
 
 const Administrador = () => {
 
@@ -11,6 +12,7 @@ const Administrador = () => {
     obtenerProductos().then((respuesta)=>{
       console.log(respuesta)
       setProductos(respuesta);
+      // todo: resolver la situacion cuando no puedo realizar la conexion a la API
     })
   },[])
 
@@ -18,9 +20,9 @@ const Administrador = () => {
         <section className="container mainSection">
         <div className="d-flex justify-content-between align-items-center mt-5">
           <h1 className="display-4 ">Productos disponibles</h1>
-          <Button className="btn btn-primary" to='/administrar/crear'>
+          <Link className="btn btn-primary" to='/administrador/crear'>
             Agregar
-          </Button>
+          </Link>
         </div>
         <hr />
         <Table responsive striped bordered hover>
@@ -36,7 +38,7 @@ const Administrador = () => {
           </thead>
           <tbody>
             {
-              productos.map((producto)=> <ItemProducto key={producto.id} producto={producto}></ItemProducto>)
+              productos.map((producto)=> <ItemProducto key={producto.id} producto={producto} setProductos={setProductos}></ItemProducto>)
             }
           </tbody>
         </Table>

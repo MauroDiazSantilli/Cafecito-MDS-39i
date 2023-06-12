@@ -1,11 +1,55 @@
 {
   "productos": [
-    { "id": 1, "nombreProducto": "café", "precio": 200, "categoria":"bebida caliente", "descripcion":"alguna descripcion", "imagen":"linkimagen" },
-    { "id": 2, "nombreProducto": "te", "precio": 100, "categoria":"bebida caliente", "descripcion":"alguna descripcion", "imagen":"linkimagen" },
-    { "id": 3, "nombreProducto": "medialuna", "precio": 150, "categoria":"dulce", "descripcion":"alguna descripcion", "imagen":"linkimagen" },
-    { "id": 4, "nombreProducto": "medialuna 222", "precio": 150, "categoria":"dulce", "descripcion":"alguna descripcion", "imagen":"linkimagen" }
+    {
+      "id": 1,
+      "nombreProducto": "café",
+      "precio": 200,
+      "categoria": "bebida caliente",
+      "descripcion": "alguna descripcion",
+      "imagen": "linkimagen"
+    },
+    {
+      "categoria": "bebida caliente",
+      "imagen": "https://images.pexels.com/photos/1672304/pexels-photo-1672304.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "nombreProducto": "medialuna",
+      "precio": 34,
+      "id": 2
+    },
+    {
+      "categoria": "bebida caliente",
+      "imagen": "https://images.pexels.com/photos/1672304/pexels-photo-1672304.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "nombreProducto": "medialuna 2",
+      "precio": 34,
+      "id": 3
+    },
+    {
+      "nombreProducto": "té de manzanilla",
+      "precio": "150",
+      "imagen": "https://images.pexels.com/photos/1672304/pexels-photo-1672304.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "categoria": "bebida caliente",
+      "id": 4
+    },
+    {
+      "nombreProducto": "pan 1kg",
+      "precio": "500",
+      "imagen": "https://images.pexels.com/photos/1672304/pexels-photo-1672304.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "categoria": "salado",
+      "id": 5
+    },
+    {
+      "nombreProducto": "brownie",
+      "precio": "250",
+      "imagen": "https://images.pexels.com/photos/1672304/pexels-photo-1672304.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "categoria": "dulce",
+      "id": 6
+    }
   ],
   "usuarios": [
-    { "id": 1, "nombreUsuario": "admin", "email": "admin@rollingcode.com", "password":"123456aA" }
+    {
+      "id": 1,
+      "nombreUsuario": "admin",
+      "email": "admin@rollingcode.com",
+      "password": "123456aA"
+    }
   ]
 }

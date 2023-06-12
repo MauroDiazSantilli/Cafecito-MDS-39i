@@ -1,62 +1,56 @@
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { obtenerProducto } from "../../helpers/queries";
+import { useParams } from "react-router-dom";
 
 const EditarProducto = () => {
+  const { id } = useParams();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
+    setValue,
   } = useForm();
 
-  const onSubmit = (data) => {};
+  useEffect(() => {
+    obtenerProducto(id).then((respuesta) => {
+      console.log(respuesta);
+      setValue("nombreProducto", respuesta.nombreProducto);
+      // todo: agregar el resto de los setValue
+    });
+  }, []);
+
+  const onSubmit = (productoNuevo) => {
+    console.log(productoNuevo);
+  };
 
   return (
     <section className="container mainSection">
       <h1 className="display-4 mt-5">Editar producto</h1>
       <hr />
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group className="mb-3" controlId="formNombreProducto">
+        <Form.Group className="mb-3" controlId="formNombreProdcuto">
           <Form.Label>Producto*</Form.Label>
           <Form.Control
             type="text"
             placeholder="Ej: Cafe"
-            {...register("producto", {
+            {...register("nombreProducto", {
               required: "El nombre del producto es obligatorio",
               minLength: {
                 value: 2,
-                message:
-                  "El nombre del producto debe tener al menos 2 caracteres",
+                message: "La cantidad minima de caracteres es de 2 digitos",
               },
               maxLength: {
-                value: 15,
-                message:
-                  "El nombre del producto debe tener como máximo 15 caracteres",
+                value: 100,
+                message: "La cantidad minima de caracteres es de 2 digitos",
               },
             })}
           />
           <Form.Text className="text-danger">
-            {errors.producto?.message}
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formDescripcion">
-          <Form.Label>Descripción*</Form.Label>
-          <Form.Control
-            as="textarea"
-            placeholder="Escriba una descripción del producto"
-            {...register("descripcion", {
-              required: "La descripción es obligatoria",
-              minLength: {
-                value: 10,
-                message: "La descripción debe tener al menos 10 caracteres",
-              },
-              maxLength: {
-                value: 500,
-                message: "La descripción debe tener como máximo 500 caracteres",
-              },
-            })}
-          />
-          <Form.Text className="text-danger">
-            {errors.descripcion?.message}
+            {errors.nombreProducto?.message}
           </Form.Text>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formPrecio">
@@ -65,10 +59,14 @@ const EditarProducto = () => {
             type="number"
             placeholder="Ej: 50"
             {...register("precio", {
-              required: "El precio es obligatorio",
+              required: "El precio del producto es obligatorio",
               min: {
-                value: 0,
-                message: "El precio debe ser mayor o igual a 0",
+                value: 1,
+                message: "El precio minimo es de $1",
+              },
+              max: {
+                value: 10000,
+                message: "El precio maximo es de $10000",
               },
             })}
           />
@@ -82,27 +80,23 @@ const EditarProducto = () => {
             type="text"
             placeholder="Ej: https://www.pexels.com/es-es/vans-en-blanco-y-negro-fuera-de-la-decoracion-para-colgar-en-la-pared-1230679/"
             {...register("imagen", {
-              required: "La URL de la imagen es obligatoria",
-              pattern: {
-                value: /^(ftp|http|https):\/\/[^ "]+$/,
-                message: "Ingrese una URL de imagen válida",
-              },
+              required: "La imagen es obligatoria",
             })}
           />
           <Form.Text className="text-danger">
             {errors.imagen?.message}
           </Form.Text>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formCategoria">
+        <Form.Group className="mb-3" controlId="formPrecio">
           <Form.Label>Categoria*</Form.Label>
           <Form.Select
             {...register("categoria", {
-              required: "Seleccione una categoría",
+              required: "La imagen es obligatoria",
             })}
           >
-            <option value="">Seleccione una opción</option>
+            <option value="">Seleccione una opcion</option>
             <option value="bebida caliente">Bebida caliente</option>
-            <option value="bebida fria">Bebida fría</option>
+            <option value="bebida fria">Bebida fria</option>
             <option value="dulce">Dulce</option>
             <option value="salado">Salado</option>
           </Form.Select>
