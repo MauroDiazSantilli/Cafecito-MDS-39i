@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { obtenerProducto } from "../../helpers/queries";
 import { useParams } from "react-router-dom";
+import 'sweetalert2/dist/sweetalert2.css'
+import Swal from 'sweetalert2';
 
 const EditarProducto = () => {
   const { id } = useParams();
@@ -18,10 +20,22 @@ const EditarProducto = () => {
   useEffect(() => {
     obtenerProducto(id).then((respuesta) => {
       console.log(respuesta);
-      setValue("nombreProducto", respuesta.nombreProducto);
+      setValue("nombreProducto", respuesta.nombreProducto)
+      setValue("precio", respuesta.precio)
+      setValue("imagen", respuesta.imagen)
+      setValue("categoria", respuesta.categoria)
       // todo: agregar el resto de los setValue
-    });
-  }, []);
+    })
+   // Error al pedir el GET
+    .catch((error) => {
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo obtener el producto. Por favor, intenta nuevamente más tarde.',
+      })
+    })
+  }, [])
 
   const onSubmit = (productoNuevo) => {
     console.log(productoNuevo);

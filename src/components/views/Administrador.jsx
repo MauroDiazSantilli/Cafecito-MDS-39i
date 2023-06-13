@@ -3,6 +3,8 @@ import ItemProducto from "./producto/ItemProducto";
 import { useEffect, useState } from "react";
 import { obtenerProductos } from "../helpers/queries";
 import { Link } from "react-router-dom";
+import 'sweetalert2/dist/sweetalert2.css'
+import Swal from 'sweetalert2';
 
 const Administrador = () => {
 
@@ -14,6 +16,15 @@ const Administrador = () => {
       setProductos(respuesta);
       // todo: resolver la situacion cuando no puedo realizar la conexion a la API
     })
+    // Error al pedir el GET
+    .catch((error) => {
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo obtener la lista de productos. Por favor, intenta nuevamente más tarde.',
+      });
+    });
   },[])
 
     return (
