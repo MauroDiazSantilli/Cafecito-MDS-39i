@@ -1,5 +1,7 @@
 import { Container, Card, Row, Col } from "react-bootstrap";
 
+//tarea: Linkear a las paginas de detales correspondientes
+
 const DetalleProducto = () => {
   return (
     <Container className="my-3 mainSection">

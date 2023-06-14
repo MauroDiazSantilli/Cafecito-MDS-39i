@@ -1,5 +1,7 @@
 import { Container, Row } from "react-bootstrap";
 import CardProducto from "./producto/CardProducto";
+
+//Realizar la tabla de productos con datos cargados en admin
 const Inicio = () => {
   return (
     <section className="mainSection">
