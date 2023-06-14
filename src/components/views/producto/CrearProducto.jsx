@@ -59,6 +59,27 @@ const CrearProducto = () => {
             {errors.nombreProducto?.message}
           </Form.Text>
         </Form.Group>
+        <Form.Group className="mb-3" controlId="formDescripcion">
+          <Form.Label>Descripción*</Form.Label>
+          <Form.Control
+            as="textarea"
+            placeholder="Escriba una descripción del producto"
+            {...register("descripcion", {
+              required: "La descripción es obligatoria",
+              minLength: {
+                value: 10,
+                message: "La descripción debe tener al menos 10 caracteres",
+              },
+              maxLength: {
+                value: 500,
+                message: "La descripción debe tener como máximo 500 caracteres",
+              },
+            })}
+          />
+          <Form.Text className="text-danger">
+            {errors.descripcion?.message}
+          </Form.Text>
+        </Form.Group>
         <Form.Group className="mb-3" controlId="formPrecio">
           <Form.Label>Precio*</Form.Label>
           <Form.Control
