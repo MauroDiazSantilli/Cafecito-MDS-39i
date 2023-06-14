@@ -24,6 +24,7 @@ const EditarProducto = () => {
       setValue("precio", respuesta.precio)
       setValue("imagen", respuesta.imagen)
       setValue("categoria", respuesta.categoria)
+      setValue("descripcion", respuesta.categoria)
       // todo: agregar el resto de los setValue
     })
    // Error al pedir el GET
