@@ -1,12 +1,12 @@
 {
   "productos": [
     {
-      "id": 1,
       "nombreProducto": "café",
-      "precio": 200,
-      "categoria": "bebida caliente",
       "descripcion": "alguna descripcion",
-      "imagen": "linkimagen"
+      "precio": "201",
+      "imagen": "linkimagen",
+      "categoria": "bebida caliente",
+      "id": 1
     },
     {
       "categoria": "bebida caliente",

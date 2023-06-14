@@ -1,13 +1,14 @@
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { obtenerProducto } from "../../helpers/queries";
-import { useParams } from "react-router-dom";
+import { consultaEditarProducto, obtenerProducto } from "../../helpers/queries";
+import { useParams, useNavigate  } from "react-router-dom";
 import 'sweetalert2/dist/sweetalert2.css'
 import Swal from 'sweetalert2';
 
 const EditarProducto = () => {
   const { id } = useParams();
+  const navegacion = useNavigate()
 
   const {
     register,
@@ -24,7 +25,7 @@ const EditarProducto = () => {
       setValue("precio", respuesta.precio)
       setValue("imagen", respuesta.imagen)
       setValue("categoria", respuesta.categoria)
-      setValue("descripcion", respuesta.categoria)
+      setValue("descripcion", respuesta.descripcion)
       // todo: agregar el resto de los setValue
     })
    // Error al pedir el GET
@@ -38,8 +39,19 @@ const EditarProducto = () => {
     })
   }, [])
 
-  const onSubmit = (productoNuevo) => {
-    console.log(productoNuevo);
+  const onSubmit = (productoEditado,) => {
+    console.log(productoEditado);
+    consultaEditarProducto(productoEditado, id).then((respuesta)=>{
+
+      if(respuesta){
+      if(respuesta && respuesta.status === 200){
+        Swal.fire("Producto actualizado", `El producto: ${productoEditado.nombreProducto} fue actualizado correctamente`, "success")
+        navegacion("/administrador")
+      }else{
+        Swal.fire("Ocurrio un error", `El producto: ${productoEditado.nombreProducto} no fue actualizado. Intente esta operacion en breve.`, "error")
+      }
+     }
+    })
   };
 
   return (
