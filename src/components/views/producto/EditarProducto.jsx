@@ -1,163 +1,160 @@
-import { Form, Button } from "react-bootstrap";
+import { Button, Form, Container } from "react-bootstrap"
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { consultaEditarProducto, obtenerProducto } from "../../helpers/queries";
-import { useParams, useNavigate  } from "react-router-dom";
-import 'sweetalert2/dist/sweetalert2.css'
-import Swal from 'sweetalert2';
+import { useParams, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const EditarProducto = () => {
-  const { id } = useParams();
-  const navegacion = useNavigate()
+    const { id } = useParams()
+    const navegacion = useNavigate()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setValue
+    } = useForm();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
-  } = useForm();
+    const onSubmit = (productoEditado) => {
+        console.log("paso la validacion")
+        consultaEditarProducto(productoEditado, id).then((respuesta)=>{
+                if(respuesta && respuesta.status === 200){
+                    Swal.fire("Producto actualizado",
+                    `El producto: ${productoEditado.nombreProducto} fue actualizado corretamente`,
+                     "success")
+                     navegacion("/administrador")
+                } else{
+                    Swal.fire("Ocurrio un error",
+                    `El producto: ${productoEditado.nombreProducto} NO fue actualizado. Intente esta operacion luego`,
+                     "error")
+                }
+            
+        })
+    }
 
-  useEffect(() => {
-    obtenerProducto(id).then((respuesta) => {
-      console.log(respuesta);
-      setValue("nombreProducto", respuesta.nombreProducto)
-      setValue("precio", respuesta.precio)
-      setValue("imagen", respuesta.imagen)
-      setValue("categoria", respuesta.categoria)
-      setValue("descripcion", respuesta.descripcion)
-      // todo: agregar el resto de los setValue
-    })
-   // Error al pedir el GET
-    .catch((error) => {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo obtener el producto. Por favor, intenta nuevamente más tarde.',
-      })
-    })
-  }, [])
+    useEffect(() => {
+        obtenerProducto(id).then((respuesta) => {
+            setValue("nombreProducto", respuesta.nombreProducto)
+            setValue("precio", respuesta.precio)
+            setValue("imagen", respuesta.imagen)
+            setValue("categoria", respuesta.categoria)
+            setValue("descripcion", respuesta.descripcion)
+        })
 
-  const onSubmit = (productoEditado,) => {
-    console.log(productoEditado);
-    consultaEditarProducto(productoEditado, id).then((respuesta)=>{
+    }, [])
 
-      if(respuesta){
-      if(respuesta && respuesta.status === 200){
-        Swal.fire("Producto actualizado", `El producto: ${productoEditado.nombreProducto} fue actualizado correctamente`, "success")
-        navegacion("/administrador")
-      }else{
-        Swal.fire("Ocurrio un error", `El producto: ${productoEditado.nombreProducto} no fue actualizado. Intente esta operacion en breve.`, "error")
-      }
-     }
-    })
-  };
+    return (
+        <Container className="my-4">
+            <h2>Editar producto</h2>
+            <hr />
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <Form.Group className="mb-3">
+                    <Form.Label>Producto*</Form.Label>
+                    <Form.Control type="text" placeholder="Ej: Cafe" maxLength={30} {
+                        ...register('nombreProducto', {
+                            required: 'El campo es obligatorio',
+                            minLength: {
+                                value: 2,
+                                message: "Este campo debe tener como minimo 2 caracteres"
+                            },
+                            maxLength: {
+                                value: 30,
+                                message: "Este campo debe tener como maximo 30 caracteres"
+                            },
+                            pattern: {
+                                value: /^.{2,30}$/,
+                                message: "El password debe tener entre 6 y 20 caracteres"
+                            }
+                        })
+                    } />
+                    <Form.Text className="text-danger">
+                        {errors.nombreProducto?.message}
+                    </Form.Text>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Precio*</Form.Label>
+                    <Form.Control type="number" placeholder="Ej:50" maxLength={5} min={0} max={10000} {
+                        ...register('precio', {
+                            required: 'El campo es obligatorio',
+                            pattern: {
+                                value: /^(?:[1-9]\d{0,4}|100000)$/,
+                                message: "Debe ingresar un numero entre 1 y 1000000"
+                            }
+                        })
+                    } />
+                    <Form.Text className="text-danger">
+                        {errors.precio?.message}
+                    </Form.Text>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Imagen URL*</Form.Label>
+                    <Form.Control type="text" placeholder="Ej: https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?fit=845%2C503&ssl=1" maxLength={250} {
+                        ...register('imagen', {
+                            required: 'El campo es obligatorio',
+                            minLength: {
+                                value: 5,
+                                message: "Este campo debe tener como minimo 5 caracteres"
+                            },
+                            maxLength: {
+                                value: 250,
+                                message: "Este campo debe tener como maximo 250 caracteres"
+                            },
+                            pattern: {
+                                value: /^[a-zA-Z0-9]+\.(png|jpg)$/,
+                                message: "La imagen debe estar en formaro .png o .jpg"
+                            }
+                        })
+                    } />
+                    <Form.Text className="text-danger">
+                        {errors.imagen?.message}
+                    </Form.Text>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Categoria*</Form.Label>
+                    <Form.Select aria-label="Default select example" {
+                        ...register('categoria', {
+                            required: 'Debe seleccionar una categoria',
+                        })}>
+                        <option value="">Seleccione una opcion</option>
+                        <option value="1">opcion 1</option>
+                        <option value="2">opcion 2</option>
+                        <option value="3">opcion 3</option>
+                    </Form.Select>
+                    <Form.Text className="text-danger">
+                        {errors.categoria?.message}
 
-  return (
-    <section className="container mainSection">
-      <h1 className="display-4 mt-5">Editar producto</h1>
-      <hr />
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group className="mb-3" controlId="formNombreProdcuto">
-          <Form.Label>Producto*</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Ej: Cafe"
-            {...register("nombreProducto", {
-              required: "El nombre del producto es obligatorio",
-              minLength: {
-                value: 2,
-                message: "La cantidad minima de caracteres es de 2 digitos",
-              },
-              maxLength: {
-                value: 100,
-                message: "La cantidad minima de caracteres es de 2 digitos",
-              },
-            })}
-          />
-          <Form.Text className="text-danger">
-            {errors.nombreProducto?.message}
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formDescripcion">
-          <Form.Label>Descripción*</Form.Label>
-          <Form.Control
-            as="textarea"
-            placeholder="Escriba una descripción del producto"
-            {...register("descripcion", {
-              required: "La descripción es obligatoria",
-              minLength: {
-                value: 10,
-                message: "La descripción debe tener al menos 10 caracteres",
-              },
-              maxLength: {
-                value: 500,
-                message: "La descripción debe tener como máximo 500 caracteres",
-              },
-            })}
-          />
-          <Form.Text className="text-danger">
-            {errors.descripcion?.message}
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formPrecio">
-          <Form.Label>Precio*</Form.Label>
-          <Form.Control
-            type="number"
-            placeholder="Ej: 50"
-            {...register("precio", {
-              required: "El precio del producto es obligatorio",
-              min: {
-                value: 1,
-                message: "El precio minimo es de $1",
-              },
-              max: {
-                value: 10000,
-                message: "El precio maximo es de $10000",
-              },
-            })}
-          />
-          <Form.Text className="text-danger">
-            {errors.precio?.message}
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formImagen">
-          <Form.Label>Imagen URL*</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Ej: https://www.pexels.com/es-es/vans-en-blanco-y-negro-fuera-de-la-decoracion-para-colgar-en-la-pared-1230679/"
-            {...register("imagen", {
-              required: "La imagen es obligatoria",
-            })}
-          />
-          <Form.Text className="text-danger">
-            {errors.imagen?.message}
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formPrecio">
-          <Form.Label>Categoria*</Form.Label>
-          <Form.Select
-            {...register("categoria", {
-              required: "La imagen es obligatoria",
-            })}
-          >
-            <option value="">Seleccione una opcion</option>
-            <option value="bebida caliente">Bebida caliente</option>
-            <option value="bebida fria">Bebida fria</option>
-            <option value="dulce">Dulce</option>
-            <option value="salado">Salado</option>
-          </Form.Select>
-          <Form.Text className="text-danger">
-            {errors.categoria?.message}
-          </Form.Text>
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Guardar
-        </Button>
-      </Form>
-    </section>
-  );
+                    </Form.Text>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Descripcion*</Form.Label>
+                    <Form.Control
+                        as="textarea"
+                        placeholder="Ingrese una descripcion del producto"
+                        style={{ height: '100px' }}
+                        maxLength={500} {
+                        ...register('descripcion', {
+                            required: 'El campo es obligatorio',
+                            minLength: {
+                                value: 5,
+                                message: "Este campo debe tener como minimo 5 caracteres"
+                            },
+                            maxLength: {
+                                value: 500,
+                                message: "Este campo debe tener como maximo 500 caracteres"
+                            },
+                        })
+                        } />
+                    <Form.Text className="text-danger">
+                        {errors.descripcion?.message}
+                    </Form.Text>
+
+                </Form.Group>
+                <Button variant="primary" type="submit" className="mt-2">
+                    Guardar
+                </Button>
+            </Form>
+        </Container>
+    );
 };
 
 export default EditarProducto;

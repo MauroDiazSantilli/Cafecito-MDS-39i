@@ -1,81 +1,90 @@
 import { Form, Button, Container, Card } from "react-bootstrap";
 import { login } from "../helpers/queries";
 import { useForm } from "react-hook-form";
-import 'sweetalert2/dist/sweetalert2.css'
-import Swal from 'sweetalert2';
-import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2"
+import "sweetalert2/dist/sweetalert2.css";
+import { useNavigate } from "react-router-dom"
 
 const Login = ({setUsuarioLogueado}) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm();
-  const navegacion = useNavigate();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset
+    } = useForm();
 
-  
-  const onSubmit = (usuario)=>{
-    // console.log(usuario)
-    login(usuario).then((respuesta)=>{
-      if(respuesta){
-        //debo loguear al usuario 
-        sessionStorage.setItem('usuario', JSON.stringify(respuesta));
-        setUsuarioLogueado(respuesta);
-        Swal.fire('Bienvenido', 'Ingresaste correctamente', 'success');
-        navegacion('/administrador');
-      }else{
-        //indicar datos erroneos al usuario
-        Swal.fire('Error', 'Email o password incorrecto', 'error');
-      }
-    })
-  }
+    const navegacion = useNavigate()
 
-  return (
-    <Container className="mainSection">
-      <Card className="my-5">
-        <Card.Header as="h5">Login</Card.Header>
-        <Card.Body>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Ingrese un email" {
-                ...register('email',{
-                  required: 'El email es obligatorio',
-                  pattern:{
-                    value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
-                    message: 'El email debe contener @ y terminar . com/es/com.ar u otra terminacion'
-                  }
-                })
-              } />
-              <Form.Text className="text-danger">
-                {errors.email?.message}
-              </Form.Text>
-            </Form.Group>
+    const onSubmit = (usuario) => {
+        login(usuario).then((respuesta) => {
+            if (respuesta) {
+                //debo loguear al usuario
+                sessionStorage.setItem("usuarioLogueado", JSON.stringify(respuesta))
+                setUsuarioLogueado(respuesta)
+                Swal.fire("Bienvenido", "Ingreso correcto", "success")
+                navegacion("/administrador")
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" {
-                ...register('password',{
-                  required: 'El password es obligatorio',
-                  pattern:{
-                    value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-                    message: 'El password debe contener 8 caracteres (al menos 1 letra mayúscula, 1 letra minúscula y 1 numero) también puede incluir carácteres especiales'
-                  }
-                })
-              } />
-               <Form.Text className="text-danger">
-                {errors.password?.message}
-              </Form.Text>
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Ingresar
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </Container>
-  );
+            } else {
+                // mostrar mensaje de error, usuario o password incorrectos
+                Swal.fire("Error", "Email o password incorrecto", "error")
+            }
+        })
+    }
+
+    return (
+        <Container className="main">
+            <Card className="my-5">
+                <Card.Header as="h5">Login</Card.Header>
+                <Card.Body>
+                    <Form onSubmit={handleSubmit(onSubmit)}>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" placeholder="Ingrese un email" {
+                                ...register('email', {
+                                    //validaciones
+                                    required: 'El email es obligatorio',
+                                    pattern: {
+                                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                        message: "Debe ingresar un email válido"
+                                    }
+                                })
+                            } />
+                            <Form.Text className="text-danger">
+                                {errors.email?.message}
+                            </Form.Text>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password" placeholder="Password" maxLength={20} {
+                                ...register('password', {
+                                    required: 'El password es obligatorio',
+                                    minLength: {
+                                        value: 6,
+                                        message: "El password contener por lo menos 6 caracteres"
+                                    },
+                                    maxLength: {
+                                        value: 20,
+                                        message: "El password debe contener como maximo 20 caracteres"
+                                    },
+                                    pattern: {
+                                        value: /^.{6,20}$/,
+                                        message: "El password debe tener entre 6 y 20 caracteres"
+                                    }
+                                })
+                            } />
+                            <Form.Text className="text-danger">
+                                {errors.password?.message}
+                            </Form.Text>
+                        </Form.Group>
+                        <Button variant="primary" type="submit">
+                            Ingresar
+                        </Button>
+                    </Form>
+                </Card.Body>
+            </Card>
+        </Container>
+    );
 };
 
 export default Login;

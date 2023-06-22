@@ -1,35 +1,40 @@
-import { Container, Card, Row, Col } from "react-bootstrap";
-
-//tarea: Linkear a las paginas de detales correspondientes
+import { Container, Row, Col } from "react-bootstrap"
+import { useEffect, useState } from "react";
+import { obtenerProducto } from "../helpers/queries";
+import { useParams } from "react-router-dom";
 
 const DetalleProducto = () => {
-  return (
-    <Container className="my-3 mainSection">
-      <Card>
-        <Row>
-          <Col md={6}>
-            <Card.Img
-              variant="top"
-              src="https://images.pexels.com/photos/10273537/pexels-photo-10273537.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            />
-          </Col>
-          <Col md={6}>
-            <Card.Body>
-              <Card.Title>MOCHACCINO CANELA</Card.Title>
-              <hr />
-              <Card.Text>
-              Combinación perfecta entre leche, choclate, café intenso y un toque de canela. Café con granos 100% de arábica brasileña. Todo en una capsula inteligente.
-              <br/>
-              <br/>
-              <span className="text-danger fw-semibold ">Categoria:</span> Café
-              <br />
-              <span className="text-danger fw-semibold ">Precio:</span> $1.740,00</Card.Text>
-            </Card.Body>
-          </Col>
-        </Row>
-      </Card>
-    </Container>
-  );
+
+    const { id } = useParams()
+    const [producto, setProducto] = useState({})
+
+    useEffect(() => {
+        obtenerProducto(id).then((respuesta) => {
+            setProducto(respuesta)
+        })
+
+    }, [])
+
+    return (
+        <Container className="main">
+            <Row className="my-4 border rounded">
+                <Col xs={12} md={6} className="text-center bg-dark" >
+                    <img src={producto.imagen} alt="imagen de producto" className="imagenDetalleProducto" />
+                </Col>
+                <Col xs={12} md={6} >
+                    <article className="p-2">
+                        <h3>{producto.nombreProducto}</h3>
+                        <hr />
+                        <p>{producto.descripcion}
+                        </p>
+                        <br />
+                        <p className="text-danger">Categoria: <span className="text-dark">{producto.categoria}</span></p>
+                        <p className="text-danger">Precio: <span className="text-dark">$ {producto.precio}</span></p>
+                    </article>
+                </Col>
+            </Row>
+        </Container>
+    );
 };
 
 export default DetalleProducto;

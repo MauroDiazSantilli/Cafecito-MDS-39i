@@ -1,27 +1,45 @@
-import { Container, Row } from "react-bootstrap";
+import imgBanner from "../../assets/bannerCafecito.png"
+import { Container, Row } from "react-bootstrap"
 import CardProducto from "./producto/CardProducto";
+import { useEffect, useState } from "react";
+import { obtenerProductos } from "../helpers/queries";
 
-//Realizar la tabla de productos con datos cargados en admin
+
+
 const Inicio = () => {
-  return (
-    <section className="mainSection">
-      <img
-        className="banner"
-        src="https://images.pexels.com/photos/6802983/pexels-photo-6802983.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        alt="fondo cafe"
-      />
-      <Container>
-        <h1 className="display-4">Nuestros Productos</h1>
-        <hr />
-        <Row>
-            <CardProducto></CardProducto>
-            <CardProducto></CardProducto>
-            <CardProducto></CardProducto>
-            <CardProducto></CardProducto>
-        </Row>
-      </Container>
-    </section>
-  );
+    const [productos, setProductos] = useState([])
+
+    useEffect(() => {
+        obtenerProductos().then((respuesta) => {
+            if (respuesta != null) {
+                setProductos(respuesta)
+            } else {
+                Swal.fire("Error", "No se pudo obtener los datos de la API", "error")
+                // navegacion("/error404")
+            }
+        })
+    }, [])
+
+    return (
+        <main className="main">
+            <Container fluid className="p-0">
+                <Row>
+                    <img src={imgBanner} alt="" className="imgBanner" />
+                </Row>
+            </Container>
+            <Container className="my-4">
+                <h1>Nuestros Productos</h1>
+                <hr />
+                <Row className="alineacionProductos">
+                   {
+                    productos.map((producto) => {
+                            return <CardProducto producto={producto} key={producto.id}></CardProducto>
+                    })
+                }
+                </Row>
+            </Container>
+        </main>
+    );
 };
 
 export default Inicio;

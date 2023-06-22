@@ -1,59 +1,56 @@
-import { Table } from "react-bootstrap";
-import ItemProducto from "./producto/ItemProducto";
-import { useEffect, useState } from "react";
-import { obtenerProductos } from "../helpers/queries";
-import { Link } from "react-router-dom";
-import 'sweetalert2/dist/sweetalert2.css'
-import Swal from 'sweetalert2';
+import React from 'react';
+import { Container, Button, Table } from "react-bootstrap"
+import ItemProducto from './producto/ItemProducto';
+import { Link, NavLink, useNavigate } from "react-router-dom"
+import { useEffect, useState } from 'react';
+import { obtenerProductos } from '../helpers/queries';
+import Swal from "sweetalert2"
+
 
 const Administrador = () => {
 
-  const [productos, setProductos] = useState([]);
+    const [productos, setProductos] = useState([])
 
-  useEffect(()=>{
-    obtenerProductos().then((respuesta)=>{
-      console.log(respuesta)
-      setProductos(respuesta);
-      // todo: resolver la situacion cuando no puedo realizar la conexion a la API
-    })
-    // Error al pedir el GET
-    .catch((error) => {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo obtener la lista de productos. Por favor, intenta nuevamente más tarde.',
-      });
-    });
-  },[])
+    // const navegacion = useNavigate()
+
+    useEffect(()=>{
+        obtenerProductos().then((respuesta)=>{
+            if (respuesta != null){
+                setProductos(respuesta)
+            } else{
+                Swal.fire("Error", "No se pudo obtener los datos de la API", "error")
+                // navegacion("/error404")
+            }
+        })
+    },[])
 
     return (
-        <section className="container mainSection">
-        <div className="d-flex justify-content-between align-items-center mt-5">
-          <h1 className="display-4 ">Productos disponibles</h1>
-          <Link className="btn btn-primary" to='/administrador/crear'>
-            Agregar
-          </Link>
-        </div>
-        <hr />
-        <Table responsive striped bordered hover>
-          <thead>
-            <tr>
-              <th>Cod</th>
-              <th>Producto</th>
-              <th>Precio</th>
-              <th>URL de Imagen</th>
-              <th>Categoria</th>
-              <th>Opciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              productos.map((producto)=> <ItemProducto key={producto.id} producto={producto} setProductos={setProductos}></ItemProducto>)
-            }
-          </tbody>
-        </Table>
-      </section>
+        <Container className='my-5 main'>
+            <div className='d-flex justify-content-between '>
+                <h3>Productos disponibles</h3>
+                <Link to={"/administrador/crear"} className={"btn btn-primary"} >Agregar</Link>
+            </div>
+            <hr />
+            <Table striped responsive bordered hover size="sm">
+                <thead>
+                    <tr>
+                        <th>Cod</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>URL de imagen</th>
+                        <th>Categoria</th>
+                        <th className='text-center'>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        productos.map((producto)=>{
+                          return  <ItemProducto producto={producto} setProductos={setProductos} key={producto.id}></ItemProducto>
+                        })
+                    }
+                </tbody>
+            </Table>
+        </Container>
     );
 };
 
