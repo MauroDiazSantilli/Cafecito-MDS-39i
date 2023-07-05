@@ -1,45 +1,36 @@
 import imgBanner from "../../assets/cafeBanner.jpg"
-import { Container, Row } from "react-bootstrap"
+import { Container, Row } from "react-bootstrap";
 import CardProducto from "./producto/CardProducto";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { obtenerProductos } from "../helpers/queries";
 
-
-
 const Inicio = () => {
-    const [productos, setProductos] = useState([])
+  const [productos, setProductos] = useState([])
 
-    useEffect(() => {
-        obtenerProductos().then((respuesta) => {
-            if (respuesta != null) {
-                setProductos(respuesta)
-            } else {
-                Swal.fire("Error", "No se pudo obtener los datos de la API", "error")
-                // navegacion("/error404")
-            }
-        })
-    }, [])
+  useEffect(()=>{
+    obtenerProductos().then((respuesta)=>{
+      setProductos(respuesta)
+    })
+  },[])
 
-    return (
-        <main className="main">
-            <Container fluid className="p-0">
-                <Row>
-                    <img src={imgBanner} alt="" className="imgBanner" />
-                </Row>
-            </Container>
-            <Container className="my-4">
-                <h1>Nuestros Productos</h1>
-                <hr />
-                <Row className="alineacionProductos">
-                   {
-                    productos.map((producto) => {
-                            return <CardProducto producto={producto} key={producto.id}></CardProducto>
-                    })
-                }
-                </Row>
-            </Container>
-        </main>
-    );
+  return (
+    <section className="mainSection">
+      <img
+        className="banner"
+        src="https://images.pexels.com/photos/6802983/pexels-photo-6802983.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        alt="fondo cafe"
+      />
+      <Container>
+        <h1 className="display-4">Nuestros Productos</h1>
+        <hr />
+        <Row>
+        {
+          productos.map((producto)=>  <CardProducto key={producto._id} producto={producto}></CardProducto>)
+        }
+        </Row>
+      </Container>
+    </section>
+  );
 };
 
 export default Inicio;

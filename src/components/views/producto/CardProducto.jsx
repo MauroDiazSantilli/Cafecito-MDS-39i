@@ -1,22 +1,26 @@
-import { Card, Col, Button } from "react-bootstrap"
-import { Link, NavLink } from "react-router-dom"
+import { Col, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import notImage from "../../../assets/notImage.png";
 
 
 const CardProducto = ({producto}) => {
-    return (
-        <Col xs={8} md={4} lg={3}>
-            <Card className="m-1">
-                <Card.Img variant="top" src={producto.imagen} className="imagenProductoInicio" />
-                <Card.Body className="cuerpoProductoInicio">
-                    <Card.Title>{producto.nombreProducto}</Card.Title>
-                    <Card.Text>
-                    $ {producto.precio}
-                    </Card.Text>
-                    <NavLink end to={`/detalleProducto/${producto.id}`} className={"btn btn-primary"} >Ver detalle</NavLink>
-                </Card.Body>
-            </Card>
-        </Col>
-    );
+  const {_id, nombreProducto, precio, imagen} = {...producto};
+
+  return (
+    <Col md={4} ld={3} className="mb-3">
+      <Card>
+        <Card.Img
+          variant="top"
+          src={(imagen)? imagen : notImage}
+        />
+        <Card.Body>
+          <Card.Title>{nombreProducto}</Card.Title>
+          <Card.Text>Precio: ${precio}</Card.Text>
+          <Link className="btn btn-danger me-2" to={`/detalle/${_id}`}>Ver más</Link>
+        </Card.Body>
+      </Card>
+    </Col>
+  );
 };
 
 export default CardProducto;

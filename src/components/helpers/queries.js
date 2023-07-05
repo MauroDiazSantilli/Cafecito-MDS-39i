@@ -1,6 +1,6 @@
-// llamar a la variable de entorno
-const URL_USUARIO = import.meta.env.VITE_API_USUARIO
-const URL_PRODUCTO = import.meta.env.VITE_API_PRODUCTO
+//llamar la variable de entorno
+const URL_USUARIO = import.meta.env.VITE_API_USUARIO;
+const URL_Producto = import.meta.env.VITE_API_PRODUCTO;
 
 /*
 Peticion GET obtener un listado de elementos o un elemento
@@ -10,101 +10,90 @@ Peticion DELETE borrar un elemento
 */ 
 
 export const login = async (usuario)=>{
-    
-    console.log(usuario)
-    try {
+    console.log(usuario);
+    try{
         const respuesta = await fetch(URL_USUARIO);
         const listaUsuarios = await respuesta.json();
-        console.log(listaUsuarios)
-        //buscar si algun usuario coincide con el que recibi por parametros
-        const usuarioBuscado = listaUsuarios.find((itemUsuario)=>itemUsuario.email === usuario.email);
+        console.log(listaUsuarios);
+        //buscar si en la listaUsuarios hay un usuario como el que recibi por parametro
+        const usuarioBuscado = listaUsuarios.find((itemUsuario)=> itemUsuario.email === usuario.email);
         if(usuarioBuscado){
-            console.log("email encontrado")
+            console.log('Email encontrado');
             //verificar el password
             if(usuarioBuscado.password === usuario.password){
-                console.log("encontramos al usuario")
-                return usuarioBuscado
-            } else {
-                console.log("password incorrecto")
-                return null
+                console.log('encontramos al usuario!!!')
+                return usuarioBuscado;
+            }else{
+                console.log('password incorrecto');
+                return null;
             }
-        } else {
-            console.log("email incorrecto")
+        }else{
+            console.log('email incorrecto');
             return null
         }
-    } catch (error) {
-        console.log(error)
-        return null
+
+    }catch (error){
+        console.log(error);
+        return null;
     }
 }
 
-export const obtenerProductos = async ()=>{
-    try {
-        const respuesta = await fetch(URL_PRODUCTO)
-        const listaProductos = await respuesta.json()
-        return listaProductos
-
-    } catch (error) {
+export const obtenerProductos = async()=>{
+    try{
+        const respuesta = await fetch(URL_Producto);
+        const listaProductos = await respuesta.json();
+        return listaProductos;
+    }catch(error){
         console.log(error)
-        return null
     }
-}
-export const obtenerProducto = async (id)=>{
-    try {
-        const respuesta = await fetch(`${URL_PRODUCTO}/${id}`)
-        const productoEditar = await respuesta.json()
-        return productoEditar
+} 
 
-    } catch (error) {
+export const obtenerProducto = async(id)=>{
+    try{
+        const respuesta = await fetch(`${URL_Producto}/${id}`);
+        const productoEditar = await respuesta.json();
+        return productoEditar;
+    }catch(error){
         console.log(error)
-        return null
     }
-}
+} 
 
-export const consultaBorrarProducto = async (id)=>{
-    try {
-        const respuesta = await fetch(`${URL_PRODUCTO}/${id}` , {
-            method:"DELETE"
+export const consultaBorrarProducto = async(id)=>{
+    try{
+        const respuesta = await fetch(`${URL_Producto}/${id}`, {
+            method: "DELETE"
         });
-        // const listaProductos = await respuesta.json()
-        return respuesta
-
-    } catch (error) {
-        console.log(error)
-        return null
+        return respuesta;
+    }catch (error){
+        console.log(error);
     }
 }
-
-export const consultaCrearProducto = async (producto)=>{
-    try {
-        const respuesta = await fetch(URL_PRODUCTO, {
+export const consultaCrearProducto = async(producto)=>{
+    try{
+        const respuesta = await fetch(URL_Producto, {
             method: "POST",
             headers: {
-                "Content-Type":"application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(producto)
         });
-        return respuesta
-
-    } catch (error) {
-        console.log(error)
-        return null
+        return respuesta;
+    }catch (error){
+        console.log(error);
     }
 }
-
-export const consultaEditarProducto = async (producto, id)=>{
-    try {
-        const respuesta = await fetch(URL_PRODUCTO+"/"+id, {
+export const consultaEditarProducto = async(producto, id)=>{
+    try{
+        const respuesta = await fetch(URL_Producto+'/'+id, {
             method: "PUT",
             headers: {
-                "Content-Type":"application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(producto)
         });
-        return respuesta
-
-    } catch (error) {
-        console.log(error)
-        return null
+        console.log(respuesta)
+        return respuesta;
+    }catch (error){
+        console.log(error);
     }
 }
