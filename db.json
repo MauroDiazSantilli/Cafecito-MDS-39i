@@ -1,52 +1,56 @@
 {
   "productos": [
     {
-      "nombreProducto": "Café ",
-      "precio": "300",
-      "imagen": "https://www.recetasderechupete.com/wp-content/uploads/2021/04/cafe-expresso-2.jpg",
-      "categoria": "Bebidas calientes",
-      "descripcion": "Café expreso caliente, ideal para arrancar el dia, o para mantenerse despierto estudiando o trabajando",
-      "id": 7
+      "id": 1,
+      "nombreProducto": "café",
+      "precio": 200,
+      "categoria": "bebida caliente",
+      "descripcion": "alguna descripcion",
+      "imagen": "linkimagen"
     },
     {
-      "nombreProducto": "Sándwiches de jamón y queso",
+      "categoria": "bebida caliente",
+      "imagen": "https://images.pexels.com/photos/1672304/pexels-photo-1672304.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "nombreProducto": "medialuna",
+      "precio": 34,
+      "id": 2
+    },
+    {
+      "categoria": "dulce",
+      "descripcion": "alguna descripcion",
+      "imagen": "https://images.pexels.com/photos/1672304/pexels-photo-1672304.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "nombreProducto": " medialuna con jamon y queso",
+      "precio": 300,
+      "id": 3
+    },
+    {
+      "nombreProducto": "té de manzanilla",
+      "precio": "150",
+      "imagen": "https://images.pexels.com/photos/1672304/pexels-photo-1672304.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "categoria": "bebida caliente",
+      "id": 4
+    },
+    {
+      "nombreProducto": "pan 1kg",
       "precio": "500",
-      "imagen": "https://www.lavanguardia.com/files/og_thumbnail/uploads/2018/06/12/5e99779a397fc.jpeg",
-      "categoria": "Sandwiches y bocadillos",
-      "descripcion": "Muy rico sandwich para almozar",
-      "id": 8
+      "imagen": "https://images.pexels.com/photos/1672304/pexels-photo-1672304.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "categoria": "salado",
+      "id": 5
     },
     {
-      "nombreProducto": "Huevos revueltos con tostadas",
-      "precio": "550",
-      "imagen": "https://resizer.glanacion.com/resizer/2ZoEwRezwuu3LScR0B7AbosBm_k=/768x0/filters:format(webp):quality(80)/cloudfront-us-east-1.images.arcpublishing.com/lanacionar/XZRE73LYPFFN5ECELPQ3AFD3D4.jpg",
-      "categoria": "Desayunos",
-      "descripcion": "Desayuno nutritivo para arrancar el dia con toda! ",
-      "id": 9
-    },
-    {
-      "nombreProducto": "Limonada",
-      "precio": "250",
-      "imagen": "https://curiosfera-recetas.com/wp-content/uploads/2016/06/C%C3%B3mo-hacer-limonada.jpg",
-      "categoria": "Bebidas frias",
-      "descripcion": "Limonada refrescante para disfrutar en un dia de calor",
-      "id": 10
-    },
-    {
-      "nombreProducto": "Yogur con frutas y granola",
-      "precio": "800",
-      "imagen": "https://images-gmi-pmc.edge-generalmills.com/d784ae83-f64c-486d-933b-100537106cd0.jpg",
-      "categoria": "Complementos y snacks",
-      "descripcion": "Excelente complemento para compartir de postre o media mañana",
-      "id": 11
+      "nombreProducto": "brownie nuevo",
+      "precio": "350",
+      "imagen": "https://images.pexels.com/photos/1672304/pexels-photo-1672304.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "categoria": "dulce",
+      "id": 6
     }
   ],
   "usuarios": [
     {
       "id": 1,
-      "nombreUsuario": "Admin",
+      "nombreUsuario": "admin",
       "email": "admin@rollingcode.com",
-      "password": "123456"
+      "password": "123456aA"
     }
   ]
 }

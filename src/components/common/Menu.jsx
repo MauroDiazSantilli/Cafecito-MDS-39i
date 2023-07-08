@@ -22,7 +22,7 @@ const logout = ()=>{
             <NavLink end className='nav-item nav-link' to={'/'}>Inicio</NavLink>
             <NavLink end className='nav-item nav-link' to={'/registro'}>Registro</NavLink>
             {
-              usuarioLogueado.email ?(
+              usuarioLogueado.usuario ?(
                 <>
                 <NavLink end className='nav-item nav-link' to={'/administrador'}>Administrador</NavLink>
                 <Button variant="dark" onClick={logout}>Logout</Button>
