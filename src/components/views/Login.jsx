@@ -1,7 +1,8 @@
 import { Form, Button, Container, Card } from "react-bootstrap";
 import { login } from "../helpers/queries";
 import { useForm } from "react-hook-form";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2"
+import "sweetalert2/dist/sweetalert2.css";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({setUsuarioLogueado}) => {
@@ -42,7 +43,7 @@ const Login = ({setUsuarioLogueado}) => {
                 ...register('email',{
                   required: 'El email es obligatorio',
                   pattern:{
-                    value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                     message: 'El email debe contener @ y terminar . com/es/com.ar u otra terminacion'
                   }
                 })
